@@ -1,4 +1,4 @@
-## WIP: A Sidescrolling Pineed Gallery
+## WIP: A Sidescrolling Pinned Gallery
 
 Inspired by an awwwards website.
 
