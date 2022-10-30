@@ -1,6 +1,6 @@
 import { useScroll, useTransform, useSpring } from "framer-motion";
 import { RefObject, useState } from "react";
-import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect";
+import useIsomorphicLayoutEffect from "hooks/useIsomorphicLayoutEffect";
 
 const useScrollSideways = (
   ref: RefObject<HTMLElement>,

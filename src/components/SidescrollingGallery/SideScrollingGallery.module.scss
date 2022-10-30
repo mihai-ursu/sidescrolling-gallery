@@ -2,8 +2,21 @@
   overflow: hidden;
 }
 
+.titleWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .galleryWrapper {
   display: flex;
   width: max-content;
   gap: 5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #000;
 }
