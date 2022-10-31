@@ -7,10 +7,7 @@ import styles from "./SidescrollingGallery.module.scss";
 
 const SidescrollingGallery = () => {
   const { width: windowWidth } = useWindowSize();
-  const [
-    galleryWrapperRef,
-    { width: galleryWrapperWidth, height: galleryWrapperHeight },
-  ] = useElementSize();
+  const [galleryWrapperRef, { width: galleryWrapperWidth }] = useElementSize();
 
   return (
     <section>
