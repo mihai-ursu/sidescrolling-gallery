@@ -13,11 +13,8 @@ const SidescrollingGallery = () => {
   ] = useElementSize();
 
   return (
-    <section className={styles.wrapper}>
-      <div
-        className={styles.galleryWrapperOuter}
-        style={{ height: galleryWrapperWidth }}
-      >
+    <section>
+      <div style={{ height: galleryWrapperWidth }}>
         <div className={styles.content}>
           <div className={styles.titleWrapper}>
             <h1 className={styles.title}>Our Collection</h1>

@@ -4,8 +4,10 @@ import styles from "../styles/Home.module.scss";
 export default function Home() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Hello World</h1>
-      <div className={styles.spacer} />
+      <div className={styles.content}>
+        <h1 className={styles.title}>Scroll Down</h1>
+        <div className={styles.spacer} />
+      </div>
       <SidescrollingGallery />
       <div className={styles.spacer} />
     </div>
