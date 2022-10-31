@@ -1,5 +1,5 @@
 .wrapper {
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .titleWrapper {
@@ -9,7 +9,16 @@
   margin-bottom: 20px;
 }
 
+.content {
+  position: sticky;
+  top: 18%;
+}
+
 .galleryWrapper {
+  overflow: hidden;
+}
+
+.cardsWrapper {
   display: flex;
   width: max-content;
   gap: 5rem;
