@@ -1,11 +1,14 @@
 import data from "data/gallery";
 import useElementSize from "hooks/useElementSize";
 import useWindowSize from "hooks/useWindowSize";
+import { useRef } from "react";
 import ScrollSideways from "../ScrollSideways/ScrollSideways";
 import Card from "./components/Card/Card";
+import useCurrentSlide from "./hooks/useCurrentSlide";
 import styles from "./SidescrollingGallery.module.scss";
 
 const SidescrollingGallery = () => {
+  const currentSlide = useCurrentSlide();
   const { width: windowWidth } = useWindowSize();
   const [galleryWrapperRef, { width: galleryWrapperWidth }] = useElementSize();
 
@@ -24,8 +27,15 @@ const SidescrollingGallery = () => {
               offset={galleryWrapperWidth}
             >
               <div ref={galleryWrapperRef} className={styles.cardsWrapper}>
-                {data.map((item) => {
-                  return <Card key={item.id} {...item} />;
+                {data.map((item, index) => {
+                  return (
+                    <Card
+                      key={item.id}
+                      cardIndex={index}
+                      currentSlide={currentSlide}
+                      {...item}
+                    />
+                  );
                 })}
               </div>
             </ScrollSideways>
