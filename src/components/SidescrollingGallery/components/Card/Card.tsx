@@ -1,16 +1,67 @@
 import CardProps from "./CardProps";
 import styles from "./Card.module.scss";
 import Image from "next/image";
-import { useRef } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
+import useEventListener from "hooks/useEventListener";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Card = (props: CardProps) => {
-  const cardRef = useRef(null);
-  const { title, image } = props;
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [elementLeft, setElementLeft] = useState(0);
+  const { title, image, cardIndex, currentSlide, titleRight, setCurrentSlide } =
+    props;
+  const isActive = cardIndex === currentSlide;
+
+  const getElementLeft = (cardRef: RefObject<HTMLDivElement>) => {
+    if (!cardRef.current) return 0;
+
+    const { left } = cardRef.current.getBoundingClientRect();
+    return left;
+  };
+
+  useEventListener("scroll", () => setElementLeft(getElementLeft(cardRef)));
+
+  useEffect(() => {
+    if (elementLeft < titleRight) {
+      setCurrentSlide(cardIndex);
+    }
+  }, [elementLeft, cardIndex, setCurrentSlide, titleRight]);
+
+  const titleVariants = {
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.6, 0.05, -0.01, 0.9],
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: 20,
+    },
+    initial: {
+      opacity: 0,
+      y: 20,
+    },
+  };
 
   return (
     <div ref={cardRef} className={styles.card}>
       <Image src={image} alt={title} fill />
-      <h3>{title}</h3>
+      <AnimatePresence>
+        {isActive ? (
+          <motion.h3
+            variants={titleVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className={styles.title}
+          >
+            {title}
+          </motion.h3>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 };
