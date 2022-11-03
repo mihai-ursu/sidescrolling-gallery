@@ -4,12 +4,20 @@ import Image from "next/image";
 import { RefObject, useEffect, useRef, useState } from "react";
 import useEventListener from "hooks/useEventListener";
 import { AnimatePresence, motion } from "framer-motion";
+import useBackgroundColorStore from "store/useBackgroundColorStore";
 
 const Card = (props: CardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [elementLeft, setElementLeft] = useState(0);
-  const { title, image, cardIndex, currentSlide, titleRight, setCurrentSlide } =
-    props;
+  const [elementLeft, setElementLeft] = useState<number | undefined>(undefined);
+  const {
+    title,
+    image,
+    cardIndex,
+    currentSlide,
+    titleRight,
+    setCurrentSlide,
+    color,
+  } = props;
   const isActive = cardIndex === currentSlide;
 
   const getElementLeft = (cardRef: RefObject<HTMLDivElement>) => {
@@ -21,8 +29,16 @@ const Card = (props: CardProps) => {
 
   useEventListener("scroll", () => setElementLeft(getElementLeft(cardRef)));
 
+  const { color: backgroundColor, setColor } = useBackgroundColorStore();
+
   useEffect(() => {
-    if (elementLeft < titleRight) {
+    if (cardIndex === currentSlide) {
+      setColor(color);
+    }
+  }, [cardIndex, currentSlide, color, setColor]);
+
+  useEffect(() => {
+    if (elementLeft && elementLeft < titleRight) {
       setCurrentSlide(cardIndex);
     }
   }, [elementLeft, cardIndex, setCurrentSlide, titleRight]);

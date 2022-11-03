@@ -6,5 +6,6 @@ export default interface CardProps {
   cardIndex: number;
   currentSlide: number;
   titleRight: number;
+  color: string;
   setCurrentSlide: Dispatch<SetStateAction<number>>;
 }

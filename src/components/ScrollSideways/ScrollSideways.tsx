@@ -9,7 +9,7 @@ const ScrollSideways: FunctionComponent<ScrollSidewaysProps> = (props) => {
     offset = 50,
     isEffectActive,
     direction,
-    initialX = 0,
+    initialX = 1500,
   } = props;
   const prefersReducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
