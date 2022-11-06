@@ -1,7 +1,7 @@
 import CardProps from "./CardProps";
 import styles from "./Card.module.scss";
 import Image from "next/image";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { memo, RefObject, useEffect, useRef, useState } from "react";
 import useEventListener from "hooks/useEventListener";
 import { AnimatePresence, motion } from "framer-motion";
 import useBackgroundColorStore from "store/useBackgroundColorStore";
@@ -27,21 +27,23 @@ const Card = (props: CardProps) => {
     return left;
   };
 
-  useEventListener("scroll", () => setElementLeft(getElementLeft(cardRef)));
+  // useEventListener("scroll", () => setElementLeft(getElementLeft(cardRef)));
 
-  const { color: backgroundColor, setColor } = useBackgroundColorStore();
+  const { setColor } = useBackgroundColorStore();
 
-  useEffect(() => {
-    if (cardIndex === currentSlide) {
-      setColor(color);
-    }
-  }, [cardIndex, currentSlide, color, setColor]);
+  // useEffect(() => {
+  //   if (cardIndex === currentSlide) {
+  //     setColor(color);
+  //   }
+  // }, [cardIndex, currentSlide, color, setColor]);
 
-  useEffect(() => {
-    if (elementLeft && elementLeft < titleRight) {
-      setCurrentSlide(cardIndex);
-    }
-  }, [elementLeft, cardIndex, setCurrentSlide, titleRight]);
+  // useEffect(() => {
+  //   if (elementLeft && elementLeft < titleRight) {
+  //     setCurrentSlide(cardIndex);
+  //   }
+  // }, [elementLeft, cardIndex, setCurrentSlide, titleRight]);
+
+  console.log("component rendered");
 
   const titleVariants = {
     animate: {
@@ -64,7 +66,12 @@ const Card = (props: CardProps) => {
 
   return (
     <div ref={cardRef} className={styles.card}>
-      <Image src={image} alt={title} fill />
+      <Image
+        src={image}
+        alt={title}
+        fill
+        sizes="(max-width: 768px) 384px, (min-width: 1200px) 384px, 384px"
+      />
       <AnimatePresence>
         {isActive ? (
           <motion.h3
@@ -82,4 +89,4 @@ const Card = (props: CardProps) => {
   );
 };
 
-export default Card;
+export default memo(Card);

@@ -1,24 +1,37 @@
 import data from "data/gallery";
 import useElementSize from "hooks/useElementSize";
 import useWindowSize from "hooks/useWindowSize";
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import ScrollSideways from "../ScrollSideways/ScrollSideways";
 import Card from "./components/Card/Card";
-// import useCurrentSlide from "./hooks/useCurrentSlide";
 import styles from "./SidescrollingGallery.module.scss";
+import useEventListener from "hooks/useEventListener";
 
 const SidescrollingGallery = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [elementLeft, setElementLeft] = useState<number | undefined>(undefined);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const { width: windowWidth } = useWindowSize();
   const [galleryWrapperRef, { width: galleryWrapperWidth }] = useElementSize();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [titleRight, setTitleRight] = useState(0);
+
+  const getElementLeft = (cardRef: RefObject<HTMLDivElement>) => {
+    if (!cardRef.current) return 0;
+
+    const { left } = cardRef.current.getBoundingClientRect();
+    return left;
+  };
+
+  useEventListener("scroll", () => setElementLeft(getElementLeft(wrapperRef)));
 
   useEffect(() => {
     if (!titleRef.current) return;
     const { right } = titleRef.current.getBoundingClientRect();
     setTitleRight(right);
   }, []);
+
+  console.log(elementLeft);
 
   return (
     <section>
@@ -36,19 +49,21 @@ const SidescrollingGallery = () => {
               isEffectActive={true}
               offset={galleryWrapperWidth}
             >
-              <div ref={galleryWrapperRef} className={styles.cardsWrapper}>
-                {data.map((item, index) => {
-                  return (
-                    <Card
-                      titleRight={titleRight}
-                      key={item.id}
-                      cardIndex={index}
-                      currentSlide={currentSlide}
-                      setCurrentSlide={setCurrentSlide}
-                      {...item}
-                    />
-                  );
-                })}
+              <div ref={wrapperRef}>
+                <div ref={galleryWrapperRef} className={styles.cardsWrapper}>
+                  {data.map((item, index) => {
+                    return (
+                      <Card
+                        titleRight={titleRight}
+                        key={item.id}
+                        cardIndex={index}
+                        currentSlide={currentSlide}
+                        setCurrentSlide={setCurrentSlide}
+                        {...item}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </ScrollSideways>
           </div>
