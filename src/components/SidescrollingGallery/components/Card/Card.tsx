@@ -8,42 +8,8 @@ import useBackgroundColorStore from "store/useBackgroundColorStore";
 
 const Card = (props: CardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [elementLeft, setElementLeft] = useState<number | undefined>(undefined);
-  const {
-    title,
-    image,
-    cardIndex,
-    currentSlide,
-    titleRight,
-    setCurrentSlide,
-    color,
-  } = props;
+  const { title, image, cardIndex, currentSlide } = props;
   const isActive = cardIndex === currentSlide;
-
-  const getElementLeft = (cardRef: RefObject<HTMLDivElement>) => {
-    if (!cardRef.current) return 0;
-
-    const { left } = cardRef.current.getBoundingClientRect();
-    return left;
-  };
-
-  // useEventListener("scroll", () => setElementLeft(getElementLeft(cardRef)));
-
-  const { setColor } = useBackgroundColorStore();
-
-  // useEffect(() => {
-  //   if (cardIndex === currentSlide) {
-  //     setColor(color);
-  //   }
-  // }, [cardIndex, currentSlide, color, setColor]);
-
-  // useEffect(() => {
-  //   if (elementLeft && elementLeft < titleRight) {
-  //     setCurrentSlide(cardIndex);
-  //   }
-  // }, [elementLeft, cardIndex, setCurrentSlide, titleRight]);
-
-  console.log("component rendered");
 
   const titleVariants = {
     animate: {

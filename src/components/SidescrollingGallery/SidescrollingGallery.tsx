@@ -1,41 +1,34 @@
 import data from "data/gallery";
 import useElementSize from "hooks/useElementSize";
 import useWindowSize from "hooks/useWindowSize";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ScrollSideways from "../ScrollSideways/ScrollSideways";
 import Card from "./components/Card/Card";
 import styles from "./SidescrollingGallery.module.scss";
-import useEventListener from "hooks/useEventListener";
+import useCurrentSlide from "./hooks/useCurrentSlide";
+import useBackgroundColorStore from "store/useBackgroundColorStore";
 
 const SidescrollingGallery = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [elementLeft, setElementLeft] = useState<number | undefined>(undefined);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const { width: windowWidth } = useWindowSize();
-  const [galleryWrapperRef, { width: galleryWrapperWidth }] = useElementSize();
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const [titleRight, setTitleRight] = useState(0);
+  const totalSlides = data.length;
+  const [galleryWrapperRef, { width: galleryWidth }] = useElementSize();
+  const [wrapperRef, currentSlide] = useCurrentSlide(
+    titleRef,
+    galleryWidth,
+    totalSlides
+  );
 
-  const getElementLeft = (cardRef: RefObject<HTMLDivElement>) => {
-    if (!cardRef.current) return 0;
+  const { setColor } = useBackgroundColorStore();
 
-    const { left } = cardRef.current.getBoundingClientRect();
-    return left;
-  };
-
-  useEventListener("scroll", () => setElementLeft(getElementLeft(wrapperRef)));
+  const { width: windowWidth } = useWindowSize();
 
   useEffect(() => {
-    if (!titleRef.current) return;
-    const { right } = titleRef.current.getBoundingClientRect();
-    setTitleRight(right);
-  }, []);
-
-  console.log(elementLeft);
+    setColor(data[currentSlide].color);
+  }, [currentSlide]);
 
   return (
     <section>
-      <div style={{ height: galleryWrapperWidth }}>
+      <div style={{ height: galleryWidth }}>
         <div className={styles.content}>
           <div className={styles.titleWrapper}>
             <h1 className={styles.title} ref={titleRef}>
@@ -47,23 +40,25 @@ const SidescrollingGallery = () => {
               direction="left"
               initialX={windowWidth * 0.8}
               isEffectActive={true}
-              offset={galleryWrapperWidth}
+              offset={galleryWidth}
             >
-              <div ref={wrapperRef}>
-                <div ref={galleryWrapperRef} className={styles.cardsWrapper}>
-                  {data.map((item, index) => {
-                    return (
-                      <Card
-                        titleRight={titleRight}
-                        key={item.id}
-                        cardIndex={index}
-                        currentSlide={currentSlide}
-                        setCurrentSlide={setCurrentSlide}
-                        {...item}
-                      />
-                    );
-                  })}
-                </div>
+              <div
+                ref={(el) => {
+                  galleryWrapperRef(el);
+                  wrapperRef(el);
+                }}
+                className={styles.cardsWrapper}
+              >
+                {data.map((item, index) => {
+                  return (
+                    <Card
+                      key={item.id}
+                      cardIndex={index}
+                      currentSlide={currentSlide}
+                      {...item}
+                    />
+                  );
+                })}
               </div>
             </ScrollSideways>
           </div>
