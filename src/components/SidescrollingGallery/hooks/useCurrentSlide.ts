@@ -42,6 +42,7 @@ const useCurrentSlide = <T extends HTMLElement = HTMLDivElement>(
     if (!titleRef.current) return;
     const { right } = titleRef.current.getBoundingClientRect();
     setTitleRight(right);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [setRef, currentSlide];

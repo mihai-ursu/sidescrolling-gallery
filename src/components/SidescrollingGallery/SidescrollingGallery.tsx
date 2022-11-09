@@ -24,6 +24,7 @@ const SidescrollingGallery = () => {
 
   useEffect(() => {
     setColor(data[currentSlide].color);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlide]);
 
   return (

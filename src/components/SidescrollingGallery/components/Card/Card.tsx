@@ -1,10 +1,8 @@
 import CardProps from "./CardProps";
 import styles from "./Card.module.scss";
 import Image from "next/image";
-import { memo, RefObject, useEffect, useRef, useState } from "react";
-import useEventListener from "hooks/useEventListener";
+import { memo, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import useBackgroundColorStore from "store/useBackgroundColorStore";
 
 const Card = (props: CardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
