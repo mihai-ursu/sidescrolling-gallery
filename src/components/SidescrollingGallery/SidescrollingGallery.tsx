@@ -18,12 +18,13 @@ const SidescrollingGallery = () => {
     totalSlides
   );
 
-  const { setBackgroundColor, setTextColor } = useColorStore();
+  const { setBackgroundColor, setTextColor, textColor } = useColorStore();
 
   const { width: windowWidth } = useWindowSize();
 
   useEffect(() => {
     setBackgroundColor(data[currentSlide].backgroundColor);
+    setTextColor(data[currentSlide].textColor);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlide]);
 
@@ -32,7 +33,11 @@ const SidescrollingGallery = () => {
       <div style={{ height: galleryWidth }}>
         <div className={styles.content}>
           <div className={styles.titleWrapper}>
-            <h1 className={styles.title} ref={titleRef}>
+            <h1
+              className={styles.title}
+              ref={titleRef}
+              style={{ color: textColor }}
+            >
               Our Collection
             </h1>
           </div>
