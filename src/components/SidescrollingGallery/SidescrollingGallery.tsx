@@ -6,7 +6,7 @@ import ScrollSideways from "../ScrollSideways/ScrollSideways";
 import Card from "./components/Card/Card";
 import styles from "./SidescrollingGallery.module.scss";
 import useCurrentSlide from "./hooks/useCurrentSlide";
-import useBackgroundColorStore from "store/useBackgroundColorStore";
+import useColorStore from "store/useColorStore";
 
 const SidescrollingGallery = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -18,12 +18,12 @@ const SidescrollingGallery = () => {
     totalSlides
   );
 
-  const { setColor } = useBackgroundColorStore();
+  const { setBackgroundColor, setTextColor } = useColorStore();
 
   const { width: windowWidth } = useWindowSize();
 
   useEffect(() => {
-    setColor(data[currentSlide].color);
+    setBackgroundColor(data[currentSlide].backgroundColor);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlide]);
 

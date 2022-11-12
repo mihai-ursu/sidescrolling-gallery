@@ -3,5 +3,4 @@ export default interface CardProps {
   image: string;
   cardIndex: number;
   currentSlide: number;
-  color: string;
 }

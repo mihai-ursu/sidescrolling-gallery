@@ -1,5 +1,5 @@
 import SidescrollingGallery from "components/SidescrollingGallery/SidescrollingGallery";
-import useBackgroundColorStore from "store/useBackgroundColorStore";
+import useBackgroundColorStore from "store/useColorStore";
 import styles from "../styles/Home.module.scss";
 import { motion } from "framer-motion";
 

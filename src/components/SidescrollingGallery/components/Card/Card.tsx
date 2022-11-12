@@ -1,12 +1,12 @@
 import CardProps from "./CardProps";
 import styles from "./Card.module.scss";
 import Image from "next/image";
-import { memo, useRef } from "react";
+import { useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const Card = (props: CardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
   const { title, image, cardIndex, currentSlide } = props;
+  const cardRef = useRef<HTMLDivElement>(null);
   const isActive = cardIndex === currentSlide;
 
   const titleVariants = {
@@ -53,4 +53,4 @@ const Card = (props: CardProps) => {
   );
 };
 
-export default memo(Card);
+export default Card;
