@@ -9,13 +9,12 @@ const useScrollSideways = (
   initialX: number
 ) => {
   const [elementTop, setElementTop] = useState(0);
-  const [elementHeight, setElementHeight] = useState(0);
   const [clientHeight, setClientHeight] = useState(0);
 
   const { scrollY } = useScroll();
 
   const initial = Math.max(elementTop - clientHeight, 0);
-  const final = elementTop + elementHeight;
+  const final = elementTop + offset;
 
   const directionValue = direction === "left" ? -1 : 1;
 
@@ -33,7 +32,6 @@ const useScrollSideways = (
         setElementTop(
           element.getBoundingClientRect().top + window.scrollY || window.scrollY
         );
-        setElementHeight(element.getBoundingClientRect().height);
       }
       setClientHeight(window.innerHeight);
     };
