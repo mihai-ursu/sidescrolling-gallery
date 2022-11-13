@@ -4,4 +4,5 @@ export default interface ScrollSidewaysProps {
   isEffectActive?: boolean;
   direction: "left" | "right";
   initialX?: number;
+  cssClass?: string;
 }
