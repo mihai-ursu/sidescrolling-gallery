@@ -10,12 +10,14 @@ import useColorStore from "store/useColorStore";
 
 const SidescrollingGallery = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const galleryWrapperRef = useRef<HTMLDivElement>(null);
   const totalSlides = data.length;
-  const [galleryWrapperRef, { width: galleryWidth }] = useElementSize();
-  const [wrapperRef, currentSlide] = useCurrentSlide(
+  const { width: galleryWidth } = useElementSize(galleryWrapperRef);
+  const currentSlide = useCurrentSlide(
     titleRef,
     galleryWidth,
-    totalSlides
+    totalSlides,
+    galleryWrapperRef
   );
 
   const { setBackgroundColor, setTextColor, textColor } = useColorStore();
@@ -48,13 +50,7 @@ const SidescrollingGallery = () => {
               isEffectActive={true}
               offset={galleryWidth}
             >
-              <div
-                ref={(el) => {
-                  galleryWrapperRef(el);
-                  wrapperRef(el);
-                }}
-                className={styles.cardsWrapper}
-              >
+              <div ref={galleryWrapperRef} className={styles.cardsWrapper}>
                 {data.map((item, index) => {
                   return (
                     <Card

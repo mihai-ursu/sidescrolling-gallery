@@ -1,22 +1,22 @@
 import useEventListener from "hooks/useEventListener";
 import { RefObject, useEffect, useState } from "react";
 
-const useCurrentSlide = <T extends HTMLElement = HTMLDivElement>(
+const useCurrentSlide = (
   titleRef: RefObject<HTMLElement>,
   galleryWidth: number,
-  totalSlides: number
-): [(node: T | null) => void, number] => {
+  totalSlides: number,
+  ref: RefObject<HTMLDivElement>
+): number => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [ref, setRef] = useState<T | null>(null);
   const [titleRight, setTitleRight] = useState(0);
   const [galleryWrapperLeft, setGalleryWrapperLeft] = useState<
     number | undefined
   >(undefined);
 
-  const getGalleryWrapperLeft = (cardRef: T | null) => {
+  const getGalleryWrapperLeft = (cardRef: RefObject<HTMLElement>) => {
     if (!cardRef) return 0;
 
-    const { left } = cardRef.getBoundingClientRect();
+    const left = cardRef?.current?.getBoundingClientRect().left || 0;
     return left;
   };
 
@@ -45,7 +45,7 @@ const useCurrentSlide = <T extends HTMLElement = HTMLDivElement>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [setRef, currentSlide];
+  return currentSlide;
 };
 
 export default useCurrentSlide;
